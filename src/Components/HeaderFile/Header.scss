@@ -1,0 +1,38 @@
+.header_main {
+  background-color: #0f1111;
+  height: 62px;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+.header_logo {
+  padding: 10px;
+  margin-left: 15px;
+}
+.header_searchbar {
+  background-color: #0f1111;
+  padding-top: 15px;
+}
+.search_bar {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+.header_basket {
+  background-color: #0f1111;
+}
+.make_center {
+  padding-top: 15px;
+  text-align: center;
+  font-size: 12px;
+}
+.row {
+  --bs-gutter-x: 0px !important;
+}
+@media screen and (max-width: 992px) {
+  .header_main {
+    position: relative;
+  }
+  .make_center {
+    padding-bottom: 15px;
+  }
+}
