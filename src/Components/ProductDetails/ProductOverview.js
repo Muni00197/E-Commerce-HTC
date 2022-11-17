@@ -22,7 +22,7 @@ const ProductOverview = () => {
     <div className="products_overview">
       <Row>
         <Col lg={6} sm={12} style={{ display: "grid", placeItems: "center" }}>
-          <img className="products_overview_img" width="50%" src={state.image} style={{ paddingRight: "25px" }} />
+          <img width="50%" src={state.image} style={{ paddingRight: "25px" }} />
           {console.log("received ", state)}
         </Col>
         <Col>
