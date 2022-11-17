@@ -70,6 +70,19 @@
   border: 2px solid whitesmoke;
   box-shadow: 2px 2px whitesmoke;
   height: 380px;
+  transition: 0.6s;
+}
+.product_item:hover{
+  transform: translateY(-10px);
+  transition: 0.6s;
+}
+.products_overview_img{
+  transition: 0.6s;
+}
+.products_overview_img:hover{
+  transform: scale(1.1);
+  transition-timing-function: ease-in-out;
+  transition: 0.6s;
 }
 .section_link{
   font-weight: 600;
