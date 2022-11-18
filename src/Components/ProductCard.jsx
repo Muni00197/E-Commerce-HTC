@@ -1,17 +1,15 @@
 import React from "react";
-import {
-  MdOutlineStarHalf,
-  MdOutlineStarOutline,
-  MdOutlineStarPurple500,
-} from "react-icons/md";
+import { MdOutlineStarPurple500 } from "react-icons/md";
 import { BiDollar } from "react-icons/bi";
 import { Button } from "react-bootstrap";
 import { IoMdPeople } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addItemToCart } from "../../redux/cart/cartActions";
+import { addItemToCart } from "../redux/cart/cartActions";
+import PropTypes from "prop-types";
 
-const ProductItem = (props) => {
+const ProductCard = (props) => {
+  const { prodDetails, rating, price, image, title } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reduxState = useSelector((state) => state);
@@ -21,29 +19,26 @@ const ProductItem = (props) => {
     dispatch(addItemToCart(Item));
   };
   const overviewProduct = (details) => {
-    navigate("/product_overview", {
+    navigate(`/product/${details.id}`, {
       state: details,
     });
   };
   return (
-    <div
-      className="product_item"
-    >
+    <div className="product_item">
       <div style={{ textAlign: "center" }}>
         <img
-          src={props.image}
+          src={image}
           height="120px"
           style={{ padding: "25px", paddingBottom: "15px", cursor: "pointer" }}
-          onClick={() => overviewProduct(props.prodDetails)}
+          onClick={() => overviewProduct(prodDetails)}
         />
       </div>
       <br />
       <div
         style={{ padding: "10px", height: "120px", cursor: "pointer" }}
-        onClick={() => overviewProduct(props.prodDetails)}
+        onClick={() => overviewProduct(prodDetails)}
       >
-        <h6>{props.title}</h6>
-        {/*<p>{props.description}</p>*/}
+        <h6>{title}</h6>
       </div>
       <div style={{ paddingBottom: "15px", paddingLeft: "15px" }}>
         <span style={{ color: "#fcba03" }}>
@@ -51,10 +46,10 @@ const ProductItem = (props) => {
         </span>
         &nbsp;
         <span style={{ fontWeight: "bold", fontSize: "12px" }}>
-          {props.rating.rate} / 5 &nbsp; &nbsp;
+          {rating.rate} / 5 &nbsp; &nbsp;
         </span>
         <span style={{ fontWeight: "bold", fontSize: "12px" }}>
-          <IoMdPeople size={25} /> {props.rating.count}
+          <IoMdPeople size={25} /> {rating.count}
         </span>
         <p
           style={{
@@ -64,13 +59,13 @@ const ProductItem = (props) => {
           }}
         >
           <BiDollar size={15} />
-          {parseFloat(props.price).toFixed(2)}
+          {parseFloat(price).toFixed(2)}
         </p>
         {productsInCart.length !== 0 &&
-        productsInCart.includes(props.prodDetails.id) ? (
+        productsInCart.includes(prodDetails.id) ? (
           <Button
             size="sm"
-            onClick={() => navigate("/cart_items")}
+            onClick={() => navigate("/cart")}
             variant="secondary"
           >
             Go to Cart
@@ -78,7 +73,7 @@ const ProductItem = (props) => {
         ) : (
           <Button
             size="sm"
-            onClick={() => addToCart(props.prodDetails)}
+            onClick={() => addToCart(prodDetails)}
             variant="info"
             style={{ color: "white" }}
           >
@@ -90,4 +85,12 @@ const ProductItem = (props) => {
   );
 };
 
-export default ProductItem;
+ProductCard.propTypes = {
+  prodDetails: PropTypes.object,
+  rating: PropTypes.object,
+  price: PropTypes.number,
+  image: PropTypes.string,
+  title: PropTypes.string,
+};
+
+export default React.memo(ProductCard);

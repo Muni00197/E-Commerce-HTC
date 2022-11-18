@@ -1,5 +1,6 @@
 .sidenav_bar_close {
   margin-left: -350px;
+  margin-top: 5px;
   transition: 0.6s;
   z-index: 9999;
 }
@@ -7,11 +8,11 @@
   transition: 0.6s;
   margin-left: 0px;
   z-index: 9999;
+  margin-top: 5px;
 }
 .nav_header {
   background-color: #007185;
   width: 100%;
-  margin-top: 62px;
 }
 
 .menu_bar {

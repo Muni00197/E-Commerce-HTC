@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import logo from "../HTCGlobal_Services_Logo.jpg";
+import logo from "../assets/images/HTCGlobal_Services_Logo.jpg";
 function Footer() {
   const backToTop = () => {
     window.scrollTo({

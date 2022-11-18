@@ -1,29 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, Button, Modal } from "react-bootstrap";
 import { MdOutlineStarPurple500 } from "react-icons/md";
 import { IoMdPeople } from "react-icons/io";
 import { BiDollar } from "react-icons/bi";
-import Form from "react-bootstrap/Form";
 import {
   addItemToCart,
+  deleteItemFromCart,
   removeItemFromCart,
   successOrder,
-} from "../../redux/cart/cartActions";
+} from "../redux/cart/cartActions";
 import { BsCartXFill } from "react-icons/bs";
-import {
-  AiOutlinePlusSquare,
-  AiOutlineMinusSquare,
-  AiOutlineClose,
-} from "react-icons/ai";
+import { AiOutlinePlusSquare, AiOutlineMinusSquare } from "react-icons/ai";
 import Cookies from "js-cookie";
 import { FcOk } from "react-icons/fc";
 import { TbFaceIdError } from "react-icons/tb";
+import { ReduxContext } from "../App";
 
-function CartItemsFolder() {
+function Cart() {
   const reduxState = useSelector((state) => state);
   const [ordersuccess, setordersuccess] = useState(false);
   const [login_alert, setlogin_alert] = useState(false);
+  const { ContextState, ContextDispatch } = useContext(ReduxContext); //  state and dispatch value from context API
   const totalAmountArray =
     reduxState.length !== 0
       ? reduxState.map((val) => val.price * val.quantity)
@@ -40,7 +38,8 @@ function CartItemsFolder() {
       setlogin_alert(false);
       setTimeout(() => {
         setordersuccess(false);
-        dispatch(successOrder());
+        // dispatch(successOrder());
+        ContextDispatch(successOrder());
       }, 2500);
     } else {
       setlogin_alert(true);
@@ -52,12 +51,13 @@ function CartItemsFolder() {
   };
   return (
     <div className="products_overview">
+      {console.log("state  from context", ContextState)}
       {reduxState.length !== 0 ? (
         <Row>
           <Col xs={9}>
             {reduxState.length !== 0 ? (
-              reduxState.map((state) => (
-                <>
+              reduxState.map((state,index) => (
+                <div key={index}>
                   <Row>
                     <Col lg={6} sm={12} style={{ textAlign: "center" }}>
                       <img
@@ -65,7 +65,6 @@ function CartItemsFolder() {
                         src={state.image}
                         style={{ paddingRight: "25px" }}
                       />
-                      {console.log("received ", state)}
                     </Col>
                     <Col>
                       <div style={{ minHeight: "180px" }}>
@@ -106,27 +105,35 @@ function CartItemsFolder() {
                           onClick={() => dispatch(addItemToCart(state))}
                           size={25}
                         />
+                        &nbsp;
+                        <Button
+                          variant="outline-info"
+                          size="sm"
+                          onClick={() => dispatch(deleteItemFromCart(state))}
+                        >
+                          Remove
+                        </Button>
                       </div>
                     </Col>
                   </Row>
                   <br />
                   <br />
-                </>
+                </div>
               ))
             ) : (
               <div></div>
             )}
           </Col>
           <Col style={{ textAlign: "start", paddingLeft: "100px" }}>
-            <h5>
+            <div>
               Orders :
-              {reduxState.map((amount) => (
-                <h6 style={{ paddingLeft: "65px" }}>
+              {reduxState.map((amount,index) => (
+                <h6 key={index} style={{ paddingLeft: "65px" }}>
                   <BiDollar size={20} />
                   {parseFloat(amount.price * amount.quantity).toFixed(2)}
                 </h6>
               ))}
-            </h5>
+            </div>
             <br />
             <h4
               style={{
@@ -189,4 +196,4 @@ function CartItemsFolder() {
   );
 }
 
-export default CartItemsFolder;
+export default Cart;

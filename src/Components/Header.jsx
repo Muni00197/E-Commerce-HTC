@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import logo from "../../HTCGlobal_Services_Logo.jpg";
+import logo from "../assets/images/HTCGlobal_Services_Logo.jpg";
 import {
   Row,
   Col,
@@ -9,12 +9,12 @@ import {
   Button,
   Modal,
 } from "react-bootstrap";
-import "./Header.scss";
+import "../assets/styles/Header.scss";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Cookies from "js-cookie";
-import { successOrder } from "../../redux/cart/cartActions";
+import { successOrder } from "../redux/cart/cartActions";
 
 function Header() {
   const [search, setsearch] = useState("");
@@ -39,7 +39,6 @@ function Header() {
       .then((res) => res.json())
       .then((data) => {
         setproducts(data);
-        console.log(data);
       });
   }, []);
 
@@ -76,32 +75,12 @@ function Header() {
         val.title.toLocaleLowerCase().split(" ").join("") ==
         search.toLocaleLowerCase().split(" ").join("")
     );
-    switch (search) {
-      case "jewelery":
-        navigate("/jewelery");
-        setsearch("");
-        break;
-      case `men's clothing`:
-        navigate("/mens_clothing");
-        setsearch("");
-        break;
-      case `women's clothing`:
-        navigate("/womens_clothing");
-        setsearch("");
-        break;
-      case "electronics":
-        navigate("/electronics");
-        setsearch("");
-        break;
-      default:
-        if (mainProduct.length !== 0) {
-          navigate("/product_overview", {
-            state: mainProduct[0],
-          });
-          setsearch("");
-        } else {
-          navigate("/");
-        }
+    if (mainProduct.length !== 0) {
+      navigate(`/product/${mainProduct[0]?.id}`);
+      setsearch("");
+    } else {
+      navigate(`/product/${search}`);
+      setsearch("");
     }
   };
   return (
@@ -109,9 +88,9 @@ function Header() {
       <Row>
         <Col className="header_logo">
           <div>
-            <Link to="/">
+            <div onClick={() => navigate("/")}>
               <img src={logo} width="100px" height="40px" />
-            </Link>
+            </div>
           </div>
         </Col>
         <Col xs={12} lg={6} className="header_searchbar">
@@ -127,11 +106,11 @@ function Header() {
               />
               {search !== "" && (
                 <datalist id="searchValues">
-                  {categories.map((val) => (
-                    <option>{val}</option>
+                  {categories.map((val, index) => (
+                    <option key={index}>{val}</option>
                   ))}
-                  {products.map((prod) => (
-                    <option>{prod.title}</option>
+                  {products.map((prod, index) => (
+                    <option key={index}>{prod.title}</option>
                   ))}
                 </datalist>
               )}
@@ -175,7 +154,7 @@ function Header() {
             <Col style={{ paddingTop: "5px" }}>
               <span
                 style={{ color: "whitesmoke", cursor: "pointer" }}
-                onClick={() => navigate("/cart_items")}
+                onClick={() => navigate("/cart")}
               >
                 <AiOutlineShoppingCart size={20} />
                 &nbsp;

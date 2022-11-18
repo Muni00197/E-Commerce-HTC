@@ -1,8 +1,6 @@
 .carousel_tab {
-  position: absolute;
   width: 100%;
-  z-index: -1;
-  padding-top: 102px;
+  padding-top: 40px;
 }
 .section_class {
   background-color: beige;
@@ -33,16 +31,23 @@
   cursor: pointer;
 }
 .products_padding {
-  padding: 130px 0px 50px 100px;
+  padding: 100px 0px 50px 100px;
+}
+.loader{
+  height: 50vh;
+  display: grid;
+  place-items: center;
+  margin-left: -50px;
+  font-weight: bold;
 }
 .products_overview {
-  padding: 130px 15px 0px 20px;
+  padding: 100px 15px 0px 20px;
 }
 .section_item {
   padding: 0px 0px 50px 50px;
 }
 .empty_cart_out {
-  height: 70vh;
+  height: 60vh;
   position: relative;
   display: grid;
   place-items: center;

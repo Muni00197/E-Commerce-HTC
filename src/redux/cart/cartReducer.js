@@ -1,4 +1,9 @@
-import { ADD_ITEM, REMOVE_ITEM, SUCCESS_ORDER } from "./cartActionTypes";
+import {
+  ADD_ITEM,
+  DELETE_ITEM,
+  REMOVE_ITEM,
+  SUCCESS_ORDER,
+} from "./cartActionTypes";
 
 const initialState = [];
 
@@ -26,6 +31,11 @@ export const cartReducer = (state = initialState, action) => {
             : value
         );
       }
+    case DELETE_ITEM:
+      const FilteredData = state.filter(
+        (data) => data.id !== action.payload.id
+      );
+      return FilteredData;
     case SUCCESS_ORDER:
       return [];
     default:

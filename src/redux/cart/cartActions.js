@@ -1,4 +1,4 @@
-import { ADD_ITEM, REMOVE_ITEM, SUCCESS_ORDER } from "./cartActionTypes";
+import { ADD_ITEM, DELETE_ITEM, REMOVE_ITEM, SUCCESS_ORDER } from "./cartActionTypes";
 
 export const addItemToCart = (newItem) => {
   return {
@@ -12,6 +12,12 @@ export const removeItemFromCart = (Item) => {
     payload: Item,
   };
 };
+export const deleteItemFromCart =(Item)=>{
+  return{
+    type :DELETE_ITEM,
+    payload:Item
+  }
+}
 export const successOrder =()=>{
   return {
     type : SUCCESS_ORDER 

@@ -1,40 +1,48 @@
 import "./App.css";
-import Header from "./Components/HeaderFile/Header";
+import Header from "./Components/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "rsuite/dist/rsuite.min.css";
-import NavBar from "./Components/NavBarFolder/NavBar";
-import "./global.scss";
+import NavBar from "./Components/NavBar";
+import "./assets/styles/global.scss";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Jewelery from "./Components/Tabs/Jewelery";
-import MensClothing from "./Components/Tabs/MensClothing";
-import Electronices from "./Components/Tabs/Electronices";
-import WomensClothing from "./Components/Tabs/WomensClothing";
-import Home from "./Components/Home";
-import ProductOverview from "./Components/ProductDetails/ProductOverview";
-import store from "./redux/store";
-import {Provider}  from 'react-redux'
-import CartItemsFolder from "./Components/CartFolder/CartItemsFolder";
+import Home from "./pages/Home";
+import Product from "./pages/Product";
+import { useDispatch, useSelector } from "react-redux";
+import Cart from "./pages/Cart";
+import { createContext } from "react";
+import Categories from "./pages/Categories";
+import PageNotFound from "./pages/PageNotFound";
+import Footer from "./Components/Footer";
+
+export const ReduxContext = createContext();
+
 function App() {
+  const reduxStateContext = useSelector((state) => state);
+  const reduxDispatchContext = useDispatch();
   return (
-    <Provider store={store}>
-    <div>
-      <Router>
-        <div>
-          <Header />
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/electronics" element={<Electronices />} />
-            <Route path="/jewelery" element={<Jewelery />} />
-            <Route path="/mens_clothing" element={<MensClothing />} />
-            <Route path="/womens_clothing" element={<WomensClothing />} />
-            <Route path="/product_overview" element={<ProductOverview />} />
-            <Route path="/cart_items" element={<CartItemsFolder />} />
-          </Routes>
-        </div>
-      </Router>
-    </div>
-  </Provider>
+    <ReduxContext.Provider
+      value={{
+        ContextState: reduxStateContext,
+        ContextDispatch: reduxDispatchContext,
+      }}
+    >
+      <div>
+        <Router>
+          <div>
+            <Header />
+            <NavBar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/categories/:category" element={<Categories />} />
+              <Route path="/product/:id" element={<Product />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </div>
+        </Router>
+        <Footer/>
+      </div>
+    </ReduxContext.Provider>
   );
 }
 

@@ -1,34 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { BiDollar } from "react-icons/bi";
 import { IoMdPeople } from "react-icons/io";
 import { Button } from "react-bootstrap";
 import { MdOutlineStarPurple500 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart } from "../../redux/cart/cartActions";
+import { addItemToCart } from "../redux/cart/cartActions";
 
-const ProductOverview = () => {
-  const { state } = useLocation();
+const Product = () => {
+  // const { pathname } = useLocation();
+  const { id } = useParams();
+  // const productId = pathname.split('product/')[1]
+  const [data, setdata] = useState({});
+  useEffect(() => {
+    fetch(`https://fakestoreapi.com/products/${id}`)
+      .then((res) => res.json())
+      .then((json) => setdata(json));
+  }, [id]);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reduxState = useSelector((state) => state);
   const productsInCart =
     reduxState.length !== 0 ? reduxState.map((val) => val.id) : [];
   const addToCart = () => {
-    dispatch(addItemToCart(state));
+    dispatch(addItemToCart(data));
   };
   return (
     <div className="products_overview">
+    {data ? 
       <Row>
         <Col lg={6} sm={12} style={{ display: "grid", placeItems: "center" }}>
-          <img width="50%" src={state.image} style={{ paddingRight: "25px" }} />
-          {console.log("received ", state)}
+          <img width="50%" src={data.image} style={{ paddingRight: "25px" }} />
         </Col>
         <Col>
           <div style={{ minHeight: "250px" }}>
-            <h3>{state.title}</h3>
-            <p>{state.description}</p>
+            <h3>{data.title}</h3>
+            <p>{data.description}</p>
           </div>
           <div style={{ minHeight: "150px" }}>
             <span style={{ color: "#fcba03" }}>
@@ -36,10 +45,10 @@ const ProductOverview = () => {
             </span>
             &nbsp;
             <span style={{ fontWeight: "bold", fontSize: "16px" }}>
-              {state.rating.rate} / 5 &nbsp; &nbsp;
+              {data?.rating?.rate} / 5 &nbsp; &nbsp;
             </span>
             <span style={{ fontWeight: "bold", fontSize: "16px" }}>
-              <IoMdPeople size={25} /> {state.rating.count}
+              <IoMdPeople size={25} /> {data?.rating?.count}
             </span>
             <p
               style={{
@@ -49,13 +58,12 @@ const ProductOverview = () => {
               }}
             >
               <BiDollar size={20} />
-              {parseFloat(state.price).toFixed(2)}
+              {parseFloat(data.price).toFixed(2)}
             </p>
-            {productsInCart.length !== 0 &&
-            productsInCart.includes(state.id) ? (
+            {productsInCart.length !== 0 && productsInCart.includes(data.id) ? (
               <Button
                 size="md"
-                onClick={() => navigate("/cart_items")}
+                onClick={() => navigate("/cart")}
                 variant="secondary"
               >
                 Go to Cart
@@ -68,8 +76,9 @@ const ProductOverview = () => {
           </div>
         </Col>
       </Row>
+      : <div className="loader"><h4>Loading...</h4></div>}
     </div>
   );
 };
 
-export default ProductOverview;
+export default Product;
