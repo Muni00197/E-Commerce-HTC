@@ -72,9 +72,6 @@ function Header({name}) {
   };
 
   const searchHandlur = (e) => {
-    if (e == 'muni'){
-      throw Error('not possible')
-    }
     e.preventDefault();
     const mainProduct = products.filter(
       (val) =>
