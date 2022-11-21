@@ -89,7 +89,7 @@ ProductCard.propTypes = {
   prodDetails: PropTypes.object,
   rating: PropTypes.object,
   price: PropTypes.number,
-  image: PropTypes.string,
+  image: PropTypes.string, 
   title: PropTypes.string,
 };
 

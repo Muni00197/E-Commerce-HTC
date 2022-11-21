@@ -13,6 +13,7 @@ import { createContext } from "react";
 import Categories from "./pages/Categories";
 import PageNotFound from "./pages/PageNotFound";
 import Footer from "./Components/Footer";
+import ErrorBoundary from "./Components/ErrorBoundary";
 
 export const ReduxContext = createContext();
 
@@ -29,14 +30,18 @@ function App() {
       <div>
         <Router>
           <div>
-            <Header />
+          <ErrorBoundary>
+            <Header name='error1' />
+          </ErrorBoundary>
+          <ErrorBoundary>
             <NavBar />
+          </ErrorBoundary>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/categories/:category" element={<Categories />} />
-              <Route path="/product/:id" element={<Product />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="*" element={<PageNotFound />} />
+              <Route path="/" element={<ErrorBoundary><Home /></ErrorBoundary>} />
+              <Route path="/categories/:category" element={<ErrorBoundary><Categories /></ErrorBoundary>} />
+              <Route path="/product/:id" element={<ErrorBoundary><Product /></ErrorBoundary>} />
+              <Route path="/cart" element={<ErrorBoundary><Cart /></ErrorBoundary>} />
+              <Route path="*" element={<ErrorBoundary><PageNotFound /></ErrorBoundary>} />
             </Routes>
           </div>
         </Router>

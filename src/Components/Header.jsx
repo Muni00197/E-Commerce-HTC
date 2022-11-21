@@ -16,7 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { successOrder } from "../redux/cart/cartActions";
 
-function Header() {
+function Header({name}) {
   const [search, setsearch] = useState("");
   const [categories, setcategories] = useState([]);
   const [products, setproducts] = useState([]);
@@ -31,6 +31,9 @@ function Header() {
 
   const reduxState = useSelector((state) => state);
   useEffect(() => {
+      if(name === 'error'){
+        throw new Error('Error Boundary check')
+      }
     fetch("https://fakestoreapi.com/products/categories")
       .then((res) => res.json())
       .then((json) => setcategories(json));
@@ -69,6 +72,9 @@ function Header() {
   };
 
   const searchHandlur = (e) => {
+    if (e == 'muni'){
+      throw Error('not possible')
+    }
     e.preventDefault();
     const mainProduct = products.filter(
       (val) =>
@@ -89,7 +95,7 @@ function Header() {
         <Col className="header_logo">
           <div>
             <div onClick={() => navigate("/")}>
-              <img src={logo} width="100px" height="40px" />
+              <img style={{cursor:"pointer"}} src={logo} width="100px" height="40px" />
             </div>
           </div>
         </Col>

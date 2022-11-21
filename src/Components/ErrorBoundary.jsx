@@ -18,9 +18,9 @@ export class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      return <h3>Something went wrong</h3>;
+      return <h3 style={{textAlign:"center"}}>Something went wrong</h3>;
     }
-    return this.props.childern;
+    return this.props.children;
   }
 }
 
