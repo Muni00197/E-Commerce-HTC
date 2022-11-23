@@ -19,9 +19,7 @@ const ProductCard = (props) => {
     dispatch(addItemToCart(Item));
   };
   const overviewProduct = (details) => {
-    navigate(`/product/${details.id}`, {
-      state: details,
-    });
+    navigate(`/product/${details.id}`);
   };
   return (
     <div className="product_item">

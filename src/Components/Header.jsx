@@ -31,9 +31,6 @@ function Header({name}) {
 
   const reduxState = useSelector((state) => state);
   useEffect(() => {
-      if(name === 'error'){
-        throw new Error('Error Boundary check')
-      }
     fetch("https://fakestoreapi.com/products/categories")
       .then((res) => res.json())
       .then((json) => setcategories(json));

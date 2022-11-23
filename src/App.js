@@ -31,7 +31,7 @@ function App() {
         <Router>
           <div>
           <ErrorBoundary>
-            <Header name='error1' />
+            <Header />
           </ErrorBoundary>
           <ErrorBoundary>
             <NavBar />

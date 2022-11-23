@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Row, Col } from "react-bootstrap";
 // import ProductCard from "../Components/ProductCard";
 import { useNavigate, useParams } from "react-router-dom";
@@ -32,6 +32,7 @@ function Categories() {
       {products.length !== 0 ?
         products.map((prod,index) => (
           <Col key={index} md={6} sm={6} xs={12} lg={3}>
+          <Suspense fallback={<div className="loader product_item"><h4>Loading...</h4></div>}>
             <ProductCard
               prodDetails={prod}
               rating={prod.rating}
@@ -39,6 +40,7 @@ function Categories() {
               image={prod.image}
               title={prod.title}
             />
+          </Suspense>
           </Col>
         )) : <div className="loader"><h4>Loading...</h4></div>}
     </Row>
