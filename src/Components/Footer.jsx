@@ -64,7 +64,7 @@ function Footer() {
         </Row>
         <hr />
         <div style={{ display: "grid", placeItems: "center" }}>
-          <img src={logo} width="100px" height="40px" />
+          <img alt="" src={logo} width="100px" height="40px" />
         </div>
         <br />
       </div>

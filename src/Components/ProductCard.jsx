@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemToCart } from "../redux/cart/cartActions";
 import PropTypes from "prop-types";
+import _ from "lodash"
 
 const ProductCard = (props) => {
-  const { prodDetails, rating, price, image, title } = props;
+  const { prodDetails} = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reduxState = useSelector((state) => state);
@@ -24,8 +25,8 @@ const ProductCard = (props) => {
   return (
     <div className="product_item">
       <div style={{ textAlign: "center" }}>
-        <img
-          src={image}
+        <img alt=""
+          src={prodDetails.image}
           height="120px"
           style={{ padding: "25px", paddingBottom: "15px", cursor: "pointer" }}
           onClick={() => overviewProduct(prodDetails)}
@@ -36,7 +37,7 @@ const ProductCard = (props) => {
         style={{ padding: "10px", height: "120px", cursor: "pointer" }}
         onClick={() => overviewProduct(prodDetails)}
       >
-        <h6>{title}</h6>
+        <h6>{prodDetails.title}</h6>
       </div>
       <div style={{ paddingBottom: "15px", paddingLeft: "15px" }}>
         <span style={{ color: "#fcba03" }}>
@@ -44,10 +45,10 @@ const ProductCard = (props) => {
         </span>
         &nbsp;
         <span style={{ fontWeight: "bold", fontSize: "12px" }}>
-          {rating.rate} / 5 &nbsp; &nbsp;
+          {prodDetails.rating.rate} / 5 &nbsp; &nbsp;
         </span>
         <span style={{ fontWeight: "bold", fontSize: "12px" }}>
-          <IoMdPeople size={25} /> {rating.count}
+          <IoMdPeople size={25} /> {prodDetails.rating.count}
         </span>
         <p
           style={{
@@ -57,10 +58,10 @@ const ProductCard = (props) => {
           }}
         >
           <BiDollar size={15} />
-          {parseFloat(price).toFixed(2)}
+          {parseFloat(prodDetails.price).toFixed(2)}
         </p>
         {productsInCart.length !== 0 &&
-        productsInCart.includes(prodDetails.id) ? (
+          _.includes(productsInCart,prodDetails.id) ? (
           <Button
             size="sm"
             onClick={() => navigate("/cart")}
@@ -84,11 +85,18 @@ const ProductCard = (props) => {
 };
 
 ProductCard.propTypes = {
-  prodDetails: PropTypes.object,
-  rating: PropTypes.object,
-  price: PropTypes.number,
-  image: PropTypes.string, 
-  title: PropTypes.string,
+  prodDetails: PropTypes.shape({
+    id: PropTypes.number,
+    price: PropTypes.number,
+    category: PropTypes.string,
+    description: PropTypes.string,
+    rating: PropTypes.shape({
+      rate: PropTypes.number,
+      rating: PropTypes.number,
+    }),
+    image: PropTypes.string,
+    title: PropTypes.string,
+  }),
 };
 
-export default React.memo(ProductCard);
+export default ProductCard;

@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {useNavigate, useParams } from "react-router-dom";
 import { BiDollar } from "react-icons/bi";
 import { IoMdPeople } from "react-icons/io";
 import { Button } from "react-bootstrap";
 import { MdOutlineStarPurple500 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../redux/cart/cartActions";
+import _ from "lodash"
 
 const Product = () => {
-  // const { pathname } = useLocation();
   const { id } = useParams();
   // const productId = pathname.split('product/')[1]
   const [data, setdata] = useState({});
   useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/${id}`)
+    fetch(`${process.env.REACT_APP_API_URL}/products/${id}`)
       .then((res) => res.json())
       .then((json) => setdata(json));
   }, [id]);
@@ -29,10 +29,10 @@ const Product = () => {
   };
   return (
     <div className="products_overview">
-    {data ? 
+    {Object.keys(data).length !== 0 ? 
       <Row>
         <Col lg={6} sm={12} style={{ display: "grid", placeItems: "center" }}>
-          <img width="50%" src={data.image} style={{ paddingRight: "25px" }} />
+          <img alt="" width="50%" src={data.image} style={{ paddingRight: "25px" }} />
         </Col>
         <Col>
           <div style={{ minHeight: "250px" }}>
@@ -60,7 +60,7 @@ const Product = () => {
               <BiDollar size={20} />
               {parseFloat(data.price).toFixed(2)}
             </p>
-            {productsInCart.length !== 0 && productsInCart.includes(data.id) ? (
+            {productsInCart.length !== 0 && _.includes(productsInCart,data.id) ? (
               <Button
                 size="md"
                 onClick={() => navigate("/cart")}

@@ -21,7 +21,7 @@ function CategoriesContainer(props) {
             lg={3}
             style={{ paddingBottom: "10px" }}
           >
-            <img src={img} height="250px" />
+            <img alt="" src={img} height="250px" />
           </Col>
         ))}
       </Row>
@@ -41,7 +41,7 @@ function CategoriesContainer(props) {
 CategoriesContainer.propTypes = {
   title: PropTypes.string,
   goto: PropTypes.string,
-  propsImages: PropTypes.array,
+  propsImages: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default React.memo(CategoriesContainer);

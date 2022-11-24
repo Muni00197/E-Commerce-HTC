@@ -3,7 +3,6 @@ import logo from "../assets/images/HTCGlobal_Services_Logo.jpg";
 import {
   Row,
   Col,
-  Container,
   Form,
   InputGroup,
   Button,
@@ -23,6 +22,7 @@ function Header({name}) {
   const [showLogin, setshowLogin] = useState(false);
   const [username_err, setusername_err] = useState(false);
   const [password_err, setpassword_err] = useState(false);
+  const [confirmation, setconfirmation] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,11 +31,11 @@ function Header({name}) {
 
   const reduxState = useSelector((state) => state);
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products/categories")
+    fetch(`${process.env.REACT_APP_API_URL}/products/categories`)
       .then((res) => res.json())
       .then((json) => setcategories(json));
 
-    fetch("https://fakestoreapi.com/products")
+    fetch(`${process.env.REACT_APP_API_URL}/products`)
       .then((res) => res.json())
       .then((data) => {
         setproducts(data);
@@ -72,7 +72,7 @@ function Header({name}) {
     e.preventDefault();
     const mainProduct = products.filter(
       (val) =>
-        val.title.toLocaleLowerCase().split(" ").join("") ==
+        val.title.toLocaleLowerCase().split(" ").join("") ===
         search.toLocaleLowerCase().split(" ").join("")
     );
     if (mainProduct.length !== 0) {
@@ -89,7 +89,7 @@ function Header({name}) {
         <Col className="header_logo">
           <div>
             <div onClick={() => navigate("/")}>
-              <img style={{cursor:"pointer"}} src={logo} width="100px" height="40px" />
+              <img alt="" style={{cursor:"pointer"}} src={logo} width="100px" height="40px" />
             </div>
           </div>
         </Col>
@@ -131,7 +131,7 @@ function Header({name}) {
                   {Cookies.get("user_name")} &nbsp;
                   <Button
                     style={{ color: "white", zIndex: 7 }}
-                    onClick={signOut}
+                    onClick={()=>setconfirmation(!confirmation)}
                     size="sm"
                     variant="outline-info"
                   >
@@ -223,11 +223,32 @@ function Header({name}) {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button style={{ color: "white" }} onClick={LoggedIn} variant="info">
+          <Button size="sm" style={{ color: "white" }} onClick={LoggedIn} variant="info">
             Login
           </Button>
         </Modal.Footer>
       </Modal>
+      <Modal
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      backdrop='static'
+      show={confirmation}
+      onHide ={()=>setconfirmation(!confirmation)}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Confirmation
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h6>Are you sure ! want to Sign Out ?</h6>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button size="sm" variant="outline-danger" onClick={()=>{setconfirmation(!confirmation)}}>Close</Button>
+        &nbsp;
+        <Button size="sm" variant="info" onClick={()=>{signOut(); setconfirmation(!confirmation)}}>Yes</Button>
+      </Modal.Footer>
+    </Modal>
     </div>
   );
 }

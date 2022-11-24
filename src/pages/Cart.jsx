@@ -21,6 +21,8 @@ function Cart() {
   const reduxState = useSelector((state) => state);
   const [ordersuccess, setordersuccess] = useState(false);
   const [login_alert, setlogin_alert] = useState(false);
+  const [confirmation, setconfirmation] = useState(false);
+  const [removeData, setremoveData] = useState({})
   const { ContextState, ContextDispatch } = useContext(ReduxContext); //  state and dispatch value from context API
   const totalAmountArray =
     reduxState.length !== 0
@@ -61,6 +63,7 @@ function Cart() {
                   <Row>
                     <Col lg={6} sm={12} style={{ textAlign: "center" }}>
                       <img
+                        alt=""
                         width="80%"
                         src={state.image}
                         style={{ paddingRight: "25px" }}
@@ -109,7 +112,7 @@ function Cart() {
                         <Button
                           variant="outline-info"
                           size="sm"
-                          onClick={() => dispatch(deleteItemFromCart(state))}
+                          onClick={() =>{setconfirmation(!confirmation);setremoveData(state)}}
                         >
                           Remove
                         </Button>
@@ -192,6 +195,27 @@ function Cart() {
           </p>
         </div>
       </Modal>
+      <Modal
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      backdrop='static'
+      show={confirmation}
+      onHide ={()=>setconfirmation(!confirmation)}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Confirmation
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h6>Are you sure ! want to remove this product ?</h6>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button size="sm" variant="outline-danger" onClick={()=>{setconfirmation(!confirmation);setremoveData({})}}>Close</Button>
+        &nbsp;
+        <Button size="sm" variant="info" onClick={()=>{dispatch(deleteItemFromCart(removeData));setremoveData({});setconfirmation(!confirmation)}}>Yes</Button>
+      </Modal.Footer>
+    </Modal>
     </div>
   );
 }

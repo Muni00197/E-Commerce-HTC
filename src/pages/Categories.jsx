@@ -12,14 +12,14 @@ function Categories() {
   // const productcategory = pathname.split("categories/")[1]
   const navigate = useNavigate();
   useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/category/${category}`)
+    fetch(`${process.env.REACT_APP_API_URL}/products/category/${category}`)
       .then((res) => res.json())
       .then((data) => {
         setproducts(data);
-        data.length == 0 && navigate("*");
+        data.length === 0 && navigate("*");
       });
       backToTop()
-  }, [category]);
+  }, [category, navigate]);
 
   const backToTop = () => {
     window.scrollTo({
@@ -35,10 +35,6 @@ function Categories() {
           <Suspense fallback={<div className="loader product_item"><h4>Loading...</h4></div>}>
             <ProductCard
               prodDetails={prod}
-              rating={prod.rating}
-              price={prod.price}
-              image={prod.image}
-              title={prod.title}
             />
           </Suspense>
           </Col>

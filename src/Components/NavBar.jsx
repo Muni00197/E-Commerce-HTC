@@ -19,7 +19,7 @@ function NavBar() {
   const [categories, setcategories] = useState([]);
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products/categories")
+    fetch(`${process.env.REACT_APP_API_URL}/products/categories`)
       .then((res) => res.json())
       .then((json) => setcategories(json));
   }, []);
