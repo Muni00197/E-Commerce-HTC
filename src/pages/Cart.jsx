@@ -1,28 +1,28 @@
-import React, { useState, useContext } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Row, Col, Button, Modal } from "react-bootstrap";
-import { MdOutlineStarPurple500 } from "react-icons/md";
-import { IoMdPeople } from "react-icons/io";
-import { BiDollar } from "react-icons/bi";
+import React, { useState, useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Row, Col, Button, Modal } from 'react-bootstrap';
+import { MdOutlineStarPurple500 } from 'react-icons/md';
+import { IoMdPeople } from 'react-icons/io';
+import { BiDollar } from 'react-icons/bi';
 import {
   addItemToCart,
   deleteItemFromCart,
   removeItemFromCart,
   successOrder,
-} from "../redux/cart/cartActions";
-import { BsCartXFill } from "react-icons/bs";
-import { AiOutlinePlusSquare, AiOutlineMinusSquare } from "react-icons/ai";
-import Cookies from "js-cookie";
-import { FcOk } from "react-icons/fc";
-import { TbFaceIdError } from "react-icons/tb";
-import { ReduxContext } from "../App";
+} from '../redux/cart/cartActions';
+import { BsCartXFill } from 'react-icons/bs';
+import { AiOutlinePlusSquare, AiOutlineMinusSquare } from 'react-icons/ai';
+import Cookies from 'js-cookie';
+import { FcOk } from 'react-icons/fc';
+import { TbFaceIdError } from 'react-icons/tb';
+import { ReduxContext } from '../App';
 
 function Cart() {
   const reduxState = useSelector((state) => state);
   const [ordersuccess, setordersuccess] = useState(false);
   const [login_alert, setlogin_alert] = useState(false);
   const [confirmation, setconfirmation] = useState(false);
-  const [removeData, setremoveData] = useState({})
+  const [removeData, setremoveData] = useState({});
   const { ContextState, ContextDispatch } = useContext(ReduxContext); //  state and dispatch value from context API
   const totalAmountArray =
     reduxState.length !== 0
@@ -34,7 +34,7 @@ function Cart() {
       : 0;
   const dispatch = useDispatch();
   const placeOrder = () => {
-    const user_name = Cookies.get("user_name");
+    const user_name = Cookies.get('user_name');
     if (user_name) {
       setordersuccess(true);
       setlogin_alert(false);
@@ -52,67 +52,70 @@ function Cart() {
     }
   };
   return (
-    <div className="products_overview">
-      {console.log("state  from context", ContextState)}
+    <div className='products_overview'>
+      {console.log('state  from context', ContextState)}
       {reduxState.length !== 0 ? (
         <Row>
           <Col xs={9}>
             {reduxState.length !== 0 ? (
-              reduxState.map((state,index) => (
+              reduxState.map((state, index) => (
                 <div key={index}>
                   <Row>
-                    <Col lg={6} sm={12} style={{ textAlign: "center" }}>
+                    <Col lg={6} sm={12} style={{ textAlign: 'center' }}>
                       <img
-                        alt=""
-                        width="80%"
+                        alt=''
+                        width='80%'
                         src={state.image}
-                        style={{ paddingRight: "25px" }}
+                        style={{ paddingRight: '25px' }}
                       />
                     </Col>
                     <Col>
-                      <div style={{ minHeight: "180px" }}>
+                      <div style={{ minHeight: '180px' }}>
                         <h5>{state.title}</h5>
-                        <p style={{ fontSize: "12px", paddingTop: "8px" }}>
+                        <p style={{ fontSize: '12px', paddingTop: '8px' }}>
                           {state.description}
                         </p>
                       </div>
-                      <div style={{ minHeight: "100px" }}>
-                        <span style={{ color: "#fcba03" }}>
+                      <div style={{ minHeight: '100px' }}>
+                        <span style={{ color: '#fcba03' }}>
                           <MdOutlineStarPurple500 size={20} />
                         </span>
                         &nbsp;
-                        <span style={{ fontWeight: "bold", fontSize: "12px" }}>
+                        <span style={{ fontWeight: 'bold', fontSize: '12px' }}>
                           {state.rating.rate} / 5 &nbsp; &nbsp;
                         </span>
-                        <span style={{ fontWeight: "bold", fontSize: "12px" }}>
+                        <span style={{ fontWeight: 'bold', fontSize: '12px' }}>
                           <IoMdPeople size={25} /> {state.rating.count}
                         </span>
                         <p
                           style={{
-                            paddingBottom: "15px",
-                            fontWeight: "bold",
-                            fontSize: "16px",
+                            paddingBottom: '15px',
+                            fontWeight: 'bold',
+                            fontSize: '16px',
                           }}
                         >
                           <BiDollar size={20} />
-                          {state.price} &#x2715; {state.quantity} ={" "}
+                          {state.price} &#x2715; {state.quantity} ={' '}
                           <BiDollar size={20} />
                           {parseFloat(state.price * state.quantity).toFixed(2)}
                         </p>
                         <AiOutlineMinusSquare
                           onClick={() => dispatch(removeItemFromCart(state))}
                           size={25}
-                        />{" "}
-                        <b>{state.quantity}</b>{" "}
+                        />{' '}
+                        <b>{state.quantity}</b>{' '}
                         <AiOutlinePlusSquare
                           onClick={() => dispatch(addItemToCart(state))}
                           size={25}
                         />
                         &nbsp;
                         <Button
-                          variant="outline-info"
-                          size="sm"
-                          onClick={() =>{setconfirmation(!confirmation);setremoveData(state)}}
+                          variant='outline-info'
+                          size='sm'
+                          onClick={() => {
+                            setconfirmation(!confirmation);
+                            setremoveData(state);
+                          }}
                         >
                           Remove
                         </Button>
@@ -127,11 +130,11 @@ function Cart() {
               <div></div>
             )}
           </Col>
-          <Col style={{ textAlign: "start", paddingLeft: "100px" }}>
+          <Col style={{ textAlign: 'start', paddingLeft: '100px' }}>
             <div>
               Orders :
-              {reduxState.map((amount,index) => (
-                <h6 key={index} style={{ paddingLeft: "65px" }}>
+              {reduxState.map((amount, index) => (
+                <h6 key={index} style={{ paddingLeft: '65px' }}>
                   <BiDollar size={20} />
                   {parseFloat(amount.price * amount.quantity).toFixed(2)}
                 </h6>
@@ -140,82 +143,101 @@ function Cart() {
             <br />
             <h4
               style={{
-                borderTop: " 2px solid gray",
-                padding: "5px 0px 0px 10px",
+                borderTop: ' 2px solid gray',
+                padding: '5px 0px 0px 10px',
               }}
             >
               Total : <BiDollar size={25} />
               {TotalAmount.toFixed(2)}
             </h4>
             <br />
-            <div style={{ textAlign: "center" }}>
-              <Button onClick={placeOrder} size="sm" variant="outline-info">
+            <div style={{ textAlign: 'center' }}>
+              <Button onClick={placeOrder} size='sm' variant='outline-info'>
                 Place Order
               </Button>
             </div>
           </Col>
         </Row>
       ) : (
-        <div className="empty_cart_out">
-          <div className="empty_cart_inner">
-            {" "}
+        <div className='empty_cart_out'>
+          <div className='empty_cart_inner'>
+            {' '}
             <BsCartXFill size={35} /> &nbsp;Your Cart is Empty
           </div>
         </div>
       )}
       <Modal
-        aria-labelledby="contained-modal-title-vcenter"
+        aria-labelledby='contained-modal-title-vcenter'
         centered
-        backdrop="static"
-        size="sm"
+        backdrop='static'
+        size='sm'
         show={ordersuccess}
       >
-        <div style={{ height: "100px" }}>
-          <div style={{ textAlign: "center", paddingTop: "10px" }}>
+        <div style={{ height: '100px' }}>
+          <div style={{ textAlign: 'center', paddingTop: '10px' }}>
             <FcOk size={40} />
           </div>
-          <p className="order_success">Order Placed Successfully</p>
+          <p className='order_success'>Order Placed Successfully</p>
         </div>
       </Modal>
       <Modal
-        aria-labelledby="contained-modal-title-vcenter"
+        aria-labelledby='contained-modal-title-vcenter'
         centered
-        backdrop="static"
-        size="sm"
+        backdrop='static'
+        size='sm'
         show={login_alert}
       >
-        <div style={{ height: "100px" }}>
+        <div style={{ height: '100px' }}>
           <div
-            style={{ textAlign: "center", paddingTop: "10px", color: "red" }}
+            style={{ textAlign: 'center', paddingTop: '10px', color: 'red' }}
           >
             <TbFaceIdError size={40} />
           </div>
-          <p className="sign_in_alert">
+          <p className='sign_in_alert'>
             Please Sign In before placing the Order
           </p>
         </div>
       </Modal>
       <Modal
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      backdrop='static'
-      show={confirmation}
-      onHide ={()=>setconfirmation(!confirmation)}
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Confirmation
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h6>Are you sure ! want to remove this product ?</h6>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button size="sm" variant="outline-danger" onClick={()=>{setconfirmation(!confirmation);setremoveData({})}}>Close</Button>
-        &nbsp;
-        <Button size="sm" variant="info" onClick={()=>{dispatch(deleteItemFromCart(removeData));setremoveData({});setconfirmation(!confirmation)}}>Yes</Button>
-      </Modal.Footer>
-    </Modal>
+        aria-labelledby='contained-modal-title-vcenter'
+        centered
+        backdrop='static'
+        show={confirmation}
+        onHide={() => setconfirmation(!confirmation)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id='contained-modal-title-vcenter'>
+            Confirmation
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h6>Are you sure ! want to remove this product ?</h6>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            size='sm'
+            variant='outline-danger'
+            onClick={() => {
+              setconfirmation(!confirmation);
+              setremoveData({});
+            }}
+          >
+            Close
+          </Button>
+          &nbsp;
+          <Button
+            size='sm'
+            variant='info'
+            onClick={() => {
+              dispatch(deleteItemFromCart(removeData));
+              setremoveData({});
+              setconfirmation(!confirmation);
+            }}
+          >
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

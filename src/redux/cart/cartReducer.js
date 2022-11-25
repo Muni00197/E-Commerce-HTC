@@ -3,17 +3,17 @@ import {
   DELETE_ITEM,
   REMOVE_ITEM,
   SUCCESS_ORDER,
-} from "./cartActionTypes";
+} from './cartActionTypes';
 
 const initialState = [];
 
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ITEM:
-      const PreData = state.find((val) => val.id == action.payload.id);
+      const PreData = state.find((val) => val.id === action.payload.id);
       if (PreData) {
         return state.map((value) =>
-          value.id == action.payload.id
+          value.id === action.payload.id
             ? { ...value, quantity: value.quantity + 1 }
             : value
         );
@@ -22,11 +22,11 @@ export const cartReducer = (state = initialState, action) => {
       }
     case REMOVE_ITEM:
       const PreData1 = state.find((val) => val.id === action.payload.id);
-      if (PreData1.quantity == 1) {
+      if (PreData1.quantity === 1) {
         return state.filter((value) => value.id !== action.payload.id);
       } else {
         return state.map((value) =>
-          value.id == action.payload.id
+          value.id === action.payload.id
             ? { ...value, quantity: value.quantity - 1 }
             : value
         );

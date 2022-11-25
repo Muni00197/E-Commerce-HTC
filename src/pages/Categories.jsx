@@ -1,9 +1,9 @@
-import React, { useState, useEffect, Suspense } from "react";
-import { Row, Col } from "react-bootstrap";
+import React, { useState, useEffect, Suspense } from 'react';
+import { Row, Col } from 'react-bootstrap';
 // import ProductCard from "../Components/ProductCard";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from 'react-router-dom';
 
-const ProductCard = React.lazy(()=> import("../Components/ProductCard"))
+const ProductCard = React.lazy(() => import('../Components/ProductCard'));
 
 function Categories() {
   const [products, setproducts] = useState([]);
@@ -16,29 +16,38 @@ function Categories() {
       .then((res) => res.json())
       .then((data) => {
         setproducts(data);
-        data.length === 0 && navigate("*");
+        data.length === 0 && navigate('*');
       });
-      backToTop()
+    backToTop();
   }, [category, navigate]);
 
   const backToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   };
   return (
-    <Row className="products_padding">
-      {products.length !== 0 ?
-        products.map((prod,index) => (
+    <Row className='products_padding'>
+      {products.length !== 0 ? (
+        products.map((prod, index) => (
           <Col key={index} md={6} sm={6} xs={12} lg={3}>
-          <Suspense fallback={<div className="loader product_item"><h4>Loading...</h4></div>}>
-            <ProductCard
-              prodDetails={prod}
-            />
-          </Suspense>
+            <Suspense
+              fallback={
+                <div className='loader product_item'>
+                  <h4>Loading...</h4>
+                </div>
+              }
+            >
+              <ProductCard prodDetails={prod} />
+            </Suspense>
           </Col>
-        )) : <div className="loader"><h4>Loading...</h4></div>}
+        ))
+      ) : (
+        <div className='loader'>
+          <h4>Loading...</h4>
+        </div>
+      )}
     </Row>
   );
 }

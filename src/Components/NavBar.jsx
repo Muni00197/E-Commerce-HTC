@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { Sidenav, Nav } from "rsuite";
-import DashboardIcon from "@rsuite/icons/legacy/Dashboard";
-import MagicIcon from "@rsuite/icons/legacy/Magic";
-import { ImMenu } from "react-icons/im";
-import { IoMdClose } from "react-icons/io";
-import { useLocation, useNavigate } from "react-router-dom";
-import { AiOutlineRight } from "react-icons/ai";
-import "../assets/styles/NavBar.scss";
-import { Col, Row } from "react-bootstrap";
+import React, { useState, useEffect } from 'react';
+import { Sidenav, Nav } from 'rsuite';
+import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
+import MagicIcon from '@rsuite/icons/legacy/Magic';
+import { ImMenu } from 'react-icons/im';
+import { IoMdClose } from 'react-icons/io';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { AiOutlineRight } from 'react-icons/ai';
+import '../assets/styles/NavBar.scss';
+import { Col, Row } from 'react-bootstrap';
 
 function NavBar() {
   const [menu, setmenu] = useState(false);
   const { pathname } = useLocation();
-  const productcategory = pathname.includes("/categories")
-    ? pathname.split("categories/")[1].replace("%20", " ")
-    : "";
+  const productcategory = pathname.includes('/categories')
+    ? pathname.split('categories/')[1].replace('%20', ' ')
+    : '';
   const navigate = useNavigate();
   const [categories, setcategories] = useState([]);
 
@@ -26,26 +26,26 @@ function NavBar() {
 
   return (
     <div>
-      <div style={{ position: "relative" }}>
-        <Row className="nav_header" style={{ position: "absolute" }}>
-          <Col className="menu_icon">
-            <div className="menu_bar">
+      <div style={{ position: 'relative' }}>
+        <Row className='nav_header' style={{ position: 'absolute' }}>
+          <Col className='menu_icon'>
+            <div className='menu_bar'>
               <span
-                style={{ cursor: "pointer" }}
+                style={{ cursor: 'pointer' }}
                 onClick={() => setmenu(!menu)}
               >
                 <ImMenu size={20} /> &nbsp;<b>Menu</b>
               </span>
             </div>
           </Col>
-          <Col className="tab_menu" xs={8}>
-            <Row className="list_items">
-              {categories.map((catgry,index) => (
+          <Col className='tab_menu' xs={8}>
+            <Row className='list_items'>
+              {categories.map((catgry, index) => (
                 <Col
                   key={index}
                   onClick={() => navigate(`/categories/${catgry}`)}
                   className={`nav_links ${
-                    productcategory == catgry ? "active_tab" : ""
+                    productcategory === catgry ? 'active_tab' : ''
                   }`}
                 >
                   <span>{catgry}</span>
@@ -57,28 +57,28 @@ function NavBar() {
         </Row>
       </div>
       <div
-        className={menu ? "sidenav_bar_open" : "sidenav_bar_close"}
-        style={{ width: 250, position: "absolute", paddingTop: "100px" }}
+        className={menu ? 'sidenav_bar_open' : 'sidenav_bar_close'}
+        style={{ width: 250, position: 'absolute', paddingTop: '100px' }}
       >
-        <Sidenav defaultOpenKeys={["3", "4"]}>
+        <Sidenav defaultOpenKeys={['3', '4']}>
           <Sidenav.Body>
-            <Nav activeKey="1">
-              <Nav.Item eventKey="1" icon={<DashboardIcon />}>
+            <Nav activeKey='1'>
+              <Nav.Item eventKey='1' icon={<DashboardIcon />}>
                 <div
-                  onClick={() => navigate("/")}
-                  style={{ textDecoration: "none" }}
+                  onClick={() => navigate('/')}
+                  style={{ textDecoration: 'none' }}
                 >
                   Home Page
                 </div>
-                <span onClick={() => setmenu(!menu)} style={{ float: "right" }}>
+                <span onClick={() => setmenu(!menu)} style={{ float: 'right' }}>
                   <IoMdClose size={30} />
                 </span>
               </Nav.Item>
-              <Nav.Menu eventKey="2" title="Categories" icon={<MagicIcon />}>
-                {categories.map((catgry,index) => (
+              <Nav.Menu eventKey='2' title='Categories' icon={<MagicIcon />}>
+                {categories.map((catgry, index) => (
                   <Nav.Item
                     key={index}
-                    eventKey="2-1"
+                    eventKey='2-1'
                     icon={<AiOutlineRight size={15} />}
                     onClick={() => navigate(`/categories/${catgry}`)}
                   >
